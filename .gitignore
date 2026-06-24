@@ -1,0 +1,19 @@
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# Local Claude Code state (don't publish personal config)
+.claude/
+settings.local.json
+
+# Logs / temp
+*.log
+tmp/
+scratchpad/
