@@ -11,13 +11,17 @@ Issue tracker — where issues live. Default to **GitHub issues** via the `gh` C
 
 ## Process
 
+### 0. Pre-flight: is there something to break down?
+
+You need a plan, spec, or PRD to slice into issues. If one is **not** already in the conversation context, not passed as an argument, and no `docs/PRD-*.md` exists in the repo, give the user a one-time heads-up — *"I don't see a PRD or plan to break down (no `docs/PRD-*.md`, nothing in context). Want to run `to-prd` first, or point me at the source?"* — and continue based on their answer. This is a soft nudge, not a gate. Skip it whenever a plan/PRD is already available (in context, as an argument, or on disk).
+
 ### 1. Gather context
 
 Work from whatever is already in the conversation context. If the user passes an issue reference (issue number, URL, or path) as an argument, fetch it from the issue tracker and read its full body and comments.
 
 ### 2. Explore the codebase (optional)
 
-If you have not already explored the codebase, do so to understand the current state of the code. Issue titles and descriptions should use the project's domain glossary vocabulary, and respect ADRs in the area you're touching.
+If you have not already explored the codebase, do so to understand the current state of the code. Issue titles and descriptions should use the project's domain glossary vocabulary, and respect ADRs in the area you're touching (both live under `docs/` if present).
 
 ### 3. Draft vertical slices
 
@@ -51,11 +55,13 @@ Iterate until the user approves the breakdown.
 
 ### 5. Publish the issues to the issue tracker
 
-For each approved slice, publish a new issue with `gh issue create` (passing `--title`, `--body`, and `--label`). Use the issue body template below. These issues are considered ready for AFK agents, so publish them with the correct triage label unless instructed otherwise.
+Each slice is labeled by its **type**: `hitl` or `afk`. Ensure both labels exist before publishing — `gh issue create --label` fails on a missing label — so run `gh label create hitl --force` and `gh label create afk --force` first (`--force` is a no-op if the label already exists).
 
-Publish issues in dependency order (blockers first) so you can reference the real issue numbers returned by `gh issue create` in the "Blocked by" field.
+Publish issues in **dependency order** (blockers first), so the real issue numbers returned by `gh issue create` can fill the "Blocked by" field of later issues. For each approved slice, publish with `gh issue create`, passing `--title`, `--body` from the template below, and `--label hitl` or `--label afk`.
 
-Specify in each created issue that after implementation, a commit must be created with a descriptive message describing what was achieved - can even be the name of the issue but not necesarily.
+In each issue body, instruct the implementing agent to finish by creating a commit whose message describes what was achieved (the issue title is a fine default).
+
+Report the created issue numbers and URLs back to the user.
 
 <issue-template>
 ## Parent
@@ -81,5 +87,13 @@ Avoid specific file paths or code snippets — they go stale fast. Exception: if
 Or "None - can start immediately" if no blockers.
 
 </issue-template>
+
+### 6. Write the issues to the repo
+
+After publishing, write each slice to its own file under `docs/issues/`, named `NNN-<slug>.md` — where `NNN` is a zero-padded sequence number in dependency order and `<slug>` is a kebab-case version of the title. For example: `001-install-dependencies.md`, `002-walking-skeleton.md`.
+
+Each file uses the same issue-body template as above, with a link to the published GitHub issue at the top (e.g. `Issue: <url>`).
+
+Just write the files; do NOT stage or commit them — the user commits docs changes manually (e.g. `git commit -m "docs"` once both `to-prd` and `to-issues` have run). Numbers are sequential within this breakdown, so regenerating a plan may overwrite existing files in `docs/issues/`.
 
 Do NOT close or modify any parent issue.

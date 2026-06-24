@@ -9,13 +9,23 @@ Issue tracker — where issues live. Default to **GitHub** via the `gh` CLI (`gh
 
 ## Process
 
-1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the PRD, and respect any ADRs in the area you're touching.
+0. **Pre-flight: is the domain pinned down?** Check whether `docs/CONTEXT.md` exists. If it does not, give the user a one-time heads-up — *"There's no `docs/CONTEXT.md` yet, so the domain vocabulary isn't pinned down and this PRD may coin inconsistent terms. Want to run `to-domain` first to establish the glossary, or proceed anyway?"* — and continue based on their answer. This is a soft nudge, not a gate: if they want to proceed, proceed. Skip the nudge entirely when `docs/CONTEXT.md` already exists.
 
-2. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can.
+1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the PRD, and respect any ADRs in the area you're touching (both live under `docs/` if present).
 
-Check with the user that these seams match their expectations.
+2. Sketch out the **seams** at which you're going to test the feature.
 
-3. Write the PRD using the template below, then publish it as a GitHub issue with `gh issue create` (passing `--title`, `--body`, and a `prd` label via `--label`). The `prd` label must exist first — `gh issue create --label prd` fails otherwise — so ensure it exists, e.g. `gh label create prd --force` (`--force` makes it a no-op if the label is already there). 
+   A *seam* (a term from Michael Feathers' *Working Effectively with Legacy Code*) is a place where you can change a program's behavior without editing the code at that point — a boundary where you can substitute a fake, stub, or alternate implementation to get the system under test. The **highest** seam is the one closest to the user-facing entry point that still gives you that control, so your tests exercise real end-to-end behavior instead of implementation details.
+
+   Existing seams should be preferred to new ones (a new seam means adding structure that exists only for tests). Use the highest seam possible. If new seams are needed, propose them at the highest point you can. This sketch feeds the *Testing Decisions* section of the template below.
+
+   Check with the user that these seams match their expectations.
+
+3. Write the PRD using the template below, then deliver it to **two places**:
+
+   **a. GitHub issue** — publish with `gh issue create` (passing `--title`, `--body`, and a `prd` label via `--label`). The `prd` label must exist first — `gh issue create --label prd` fails otherwise — so ensure it exists, e.g. `gh label create prd --force` (`--force` makes it a no-op if the label is already there). Report the created issue URL back to the user.
+
+   **b. Repo file** — write the same PRD body to a numbered file in `docs/`: `PRD-01.md` for the first, then `PRD-02.md`, `PRD-03.md`, and so on. Check `docs/` for existing `PRD-*.md` files and pick the next free number, zero-padded to two digits. **Never overwrite an existing PRD file.** Just write the file; do NOT stage or commit it — the user commits docs changes manually (e.g. after running `to-issues`).
 
 <prd-template>
 
