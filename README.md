@@ -10,7 +10,10 @@ Each skill is a self-contained directory with a `SKILL.md` (and optional referen
 |-------|-------------|
 | [`grill-me`](grill-me/) | Interview relentlessly about a plan or design until reaching shared understanding. |
 | [`handoff`](handoff/) | Compact the current conversation into a handoff document for another agent. |
+| [`implement`](implement/) | Implement the work in a PRD or set of issues — TDD at agreed seams, then self-review against standards and spec. |
 | [`improve-codebase-architecture`](improve-codebase-architecture/) | Find deepening/refactoring opportunities to make a codebase more testable and navigable. |
+| [`ponytail`](ponytail/) | Force the laziest solution that actually works — YAGNI, stdlib over dependencies, one line over fifty. |
+| [`tdd`](tdd/) | Test-driven development — red-green-refactor and integration tests. |
 | [`to-domain`](to-domain/) | Build and sharpen the project's domain model (glossary + ADRs) via a grilling session. |
 | [`to-issues`](to-issues/) | Break a plan or PRD into independently-grabbable tracker issues. |
 | [`to-prd`](to-prd/) | Turn the current context into a PRD and publish it to the issue tracker. |
