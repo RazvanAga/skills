@@ -3,7 +3,7 @@ name: design-taste-frontend
 description: Anti-slop frontend skill for landing pages, portfolios, and redesigns. The agent reads the brief, infers the right design direction, and ships interfaces that do not look templated. Real design systems when applicable, audit-first on redesigns, strict pre-flight check.
 ---
 
-# tasteskill: Anti-Slop Frontend Skill
+# Taste: Anti-Slop Frontend Skill
 
 > Landing pages, portfolios, and redesigns. Not dashboards, not data tables, not multi-step product UI.
 > Every rule below is **contextual**. None of it fires automatically. First read the brief, then pull only what fits.
@@ -704,7 +704,7 @@ This rule is non-negotiable. The agent has historically ignored em-dash limits w
 
 ## 10. REFERENCE VOCABULARY (Pattern Names the Agent Should Know)
 
-This is a vocabulary, not a library. The agent should KNOW these pattern names to communicate about them, design with them in mind, and reach for them when the design read calls for them. **Implementations and code sketches live in the Block Library (Section 12), which is populated iteratively.**
+This is a vocabulary, not a library. The agent should KNOW these pattern names to communicate about them, design with them in mind, and reach for them when the design read calls for them.
 
 ### Hero Paradigms
 * **Asymmetric Split Hero** - Text on one side, asset on the other, generous white space.
@@ -829,67 +829,6 @@ Never modify without explicit user approval:
 * Form field names or order (breaks analytics + autofill).
 * Brand logo or wordmark.
 * Existing legal / consent / cookie copy.
-
----
-
-## 12. THE BLOCK LIBRARY (Contract - Implementations Land Here Iteratively)
-
-The Reference Vocabulary (Section 10) names patterns. The Block Library implements them with real props, real motion specs, and real code sketches.
-
-**Status:** schema defined here. Blocks will be added iteratively. Do not freelance new blocks without following this schema.
-
-### 12.A File Location
-```
-skills/taste-skill/blocks/
-  hero/
-    asymmetric-split.md
-    editorial-manifesto.md
-    kinetic-type.md
-    ...
-  feature/
-    bento-grid.md
-    sticky-scroll-stack.md
-    zig-zag.md
-    ...
-  social-proof/
-  pricing/
-  cta/
-  footer/
-  navigation/
-  portfolio/
-  transition/
-```
-
-### 12.B Required Frontmatter
-```yaml
----
-name: asymmetric-split-hero
-category: hero
-dial_compatibility:
-  variance: [6, 10]
-  motion: [3, 10]
-  density: [2, 5]
-when_to_use: "Landing pages with one strong asset and one strong message. Default hero for SaaS, agency, premium consumer."
-not_for: "Editorial / manifesto launches where the message IS the design."
-stack: ["react", "next", "tailwind", "motion"]
----
-```
-
-### 12.C Required Body Sections
-1. **Visual sketch** - short ASCII or description of the layout.
-2. **Props API** - the component's interface.
-3. **Code sketch** - minimal working implementation (Server Component default, Client island for motion).
-4. **Mobile fallback** - explicit collapse rules for `< 768px`.
-5. **Motion variants** - one variant per `MOTION_INTENSITY` band (1-3, 4-7, 8-10). Reduced-motion fallback explicit.
-6. **Dark-mode notes** - token strategy specific to this block.
-7. **Anti-patterns** - common ways this block goes wrong.
-8. **References** - links to real examples in production.
-
-### 12.D Block-Library Discipline
-* One block per file. No multi-block files.
-* Every block must work standalone (drop it into a page, it renders).
-* Every block must pass the Pre-Flight Check (Section 14).
-* Blocks that depend on a design system from Section 2.A live under `blocks/<category>/<name>--<system>.md` (e.g. `feature/bento-grid--material.md`).
 
 ---
 
