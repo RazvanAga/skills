@@ -182,6 +182,8 @@ LLMs default to clichés. Override these defaults proactively. Each rule has a c
 
 * **ITALIC DESCENDER CLEARANCE (mandatory):** When italic is used in display type and the word contains a descender letter (`y g j p q`), `leading-[1]` or `leading-none` will clip the descender. Use `leading-[1.1]` minimum and add `pb-1` or `mb-1` reserve on the wrapping element. Audit every italic word in display headlines before shipping.
 
+* **ORPHAN CONTROL:** No single word stranded on the last line of a headline or paragraph. Apply `text-wrap: balance` to headings (`text-balance`) and `text-wrap: pretty` to body copy (`text-pretty`). Audit every multi-line headline before shipping.
+
 ### 4.2 Color Calibration
 * Max 1 accent color. Saturation < 80% by default.
 * **THE LILA RULE:** The "AI Purple / Blue glow" aesthetic is discouraged as a default. No automatic purple button glows, no random neon gradients. Use neutral bases (Zinc / Slate / Stone) with high-contrast singular accents (Emerald, Electric Blue, Deep Rose, Burnt Orange, etc.).
@@ -294,6 +296,8 @@ Landing pages and portfolios are **visual products**. Text-only pages with fake-
 * Or skip the preview entirely and use editorial photography
 
 **Hero needs a real visual.** Text + gradient blob is not a hero - it's a placeholder.
+
+**Every meaningful image needs real `alt` text.** Describe the image content for screen readers and SEO. Never ship `alt=""` or `alt="image"` on a content image. Purely decorative images (grain overlays, background textures) get `alt=""` deliberately, or `aria-hidden`.
 
 ### 4.9 Content Density
 
@@ -546,6 +550,12 @@ Use this for: feature lists, testimonial grids, logo walls, anything that just n
 
 ### 6.F Z-Index Restraint
 NEVER spam arbitrary `z-50` or `z-10`. Use z-index strictly for systemic layer contexts (sticky navbars, modals, overlays, grain). Document the z-index scale in a project constants file.
+
+### 6.G Markup & Metadata Hygiene
+* **Semantic HTML, not div soup.** Use `<nav>`, `<main>`, `<header>`, `<section>`, `<article>`, `<footer>`. Reserve `<div>` for styling wrappers, not structure.
+* **Page metadata is not optional.** Ship a real `<title>`, meta `description`, and Open Graph / Twitter card tags (`og:title`, `og:description`, `og:image`) so the page previews correctly when shared. A landing page with no OG image is unfinished.
+* **Favicon.** Always include a branded favicon - never leave the framework default.
+* **Skip-to-content link.** Add a visually-hidden "skip to main content" link as the first focusable element, for keyboard users.
 
 ---
 
@@ -908,6 +918,9 @@ Run this matrix before outputting code. This is the last filter.
 - [ ] **Viewport stability**: `min-h-[100dvh]`, never `h-screen`?
 - [ ] **`useEffect` animations** have strict cleanup functions?
 - [ ] **Empty / loading / error** states provided?
+- [ ] **Orphan control**: no single-word last line on headlines/paragraphs (`text-balance` / `text-pretty`)?
+- [ ] **Alt text**: every content image has real `alt`; decorative images explicitly `alt=""` / `aria-hidden`?
+- [ ] **Markup & metadata**: semantic HTML (not div soup), real `<title>` + meta description + OG/Twitter card + `og:image`, branded favicon, skip-to-content link (Section 6.G)?
 - [ ] **Cards omitted** in favor of spacing where possible?
 - [ ] **Icons** from an allowed library only (Phosphor / HugeIcons / Radix / Tabler), no hand-rolled SVG paths?
 - [ ] **Motion** isolated in client-leaf components with `'use client'` at the top, memoized?
